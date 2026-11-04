@@ -1,0 +1,61 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@{
+    ViewData["Title"] = "Find a Song";
+}
+
+<div class="container mt-4">
+    <h1>Find a Song</h1>
+
+    <form id="searchForm">
+        <div class="mb-3">
+            <label for="word" class="form-label">
+                Enter a song title or artist:
+            </label>
+
+            <input type="text"
+                   id="word"
+                   class="form-control"
+                   placeholder="Example: Koffee"
+                   required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Search
+        </button>
+    </form>
+
+    @if (ViewBag.Song != null)
+    {
+        <h3 class="mt-4">Found: @ViewBag.Song</h3>
+
+        <a asp-controller="Playlist"
+           asp-action="Track"
+           asp-route-number="@ViewBag.Number"
+           class="btn btn-success">
+            Play it
+        </a>
+    }
+
+    @if (ViewBag.Message != null)
+    {
+        <p class="mt-4">@ViewBag.Message</p>
+    }
+</div>
+
+<script>
+    document.getElementById("searchForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const word = document.getElementById("word").value.trim();
+
+        if (word !== "") {
+            window.location.href = "/find/" + encodeURIComponent(word);
+        }
+    });
+</script>
